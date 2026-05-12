@@ -344,8 +344,7 @@ def hist_plot_gen(
                     mirror=False,       # bottom edge only, no top edge
                 ),
                 yaxis2=dict(
-                    title_text="Count",
-                    title_font=dict(size=y_label_size),
+                    title_text="",
                     tickfont=dict(size=tick_size),
                     range=[0, break_lo],
                     tickmode="array",
@@ -394,6 +393,24 @@ def hist_plot_gen(
                 xref="paper", yref="paper",
                 x0=0, x1=1, y0=1, y1=1,
                 line=dict(color="black", width=spine_thickness),
+            )
+
+            # single "Count" label centred across both subplots
+            y_top_domain_top = fig.layout.yaxis.domain[1]    # top of top subplot
+            y_bot_domain_bot = fig.layout.yaxis2.domain[0]   # bottom of bottom subplot
+            y_label_center   = (y_top_domain_top + y_bot_domain_bot) / 2
+            x_left_domain    = fig.layout.xaxis.domain[0]
+            fig.add_annotation(
+                x=x_left_domain,
+                y=y_label_center,
+                xref="paper", yref="paper",
+                text="Count",
+                showarrow=False,
+                textangle=-90,
+                font=dict(size=y_label_size),
+                xanchor="right",
+                yanchor="middle",
+                xshift=-(y_label_size * 1.6),   # push left of the tick labels
             )
 
             # diagonal break marks: one slash centered on each break edge,
